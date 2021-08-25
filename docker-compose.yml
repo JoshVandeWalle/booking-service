@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  nginx:
+    build: ./nginx
+    ports:
+      - 1300:80
+    volumes:
+      - static_volume:/home/app/app/static
+    depends_on:
+      - app
+    restart: "on-failure"
+  app:
+    build: . #build the image for the web service from the dockerfile in parent directory
+    command: sh -c "gunicorn -w 2 --bind 0.0.0.0:5000 app:app"
+    ports:
+        - 5000:5000
+    volumes:
+      - .:/app:rw # map data and files from parent directory in host to microservice directory in docker containe
+      - static_volume:/home/app/app/static
+    # env_file:
+    #   - ../env
+    image: booking
+
+    expose:
+      - 5000
+    restart: "on-failure"
+
+
+volumes:
+  static_volume:
