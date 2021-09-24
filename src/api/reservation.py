@@ -85,11 +85,11 @@ class ReservationRestService:
         # handle missing json field
         except KeyError: 
             # return status code 400
-            return jsonify(data=reservation.serialize(), code="400", message="Invalid reservation")
+            return jsonify(data=request.json, code="400", message="Invalid reservation")
         # handle invalid json data
         except ValidationError as e:
             # return status code 400 and specific validation error message
-            return jsonify(data=reservation.serialize(), code="400", message=e.message)
+            return jsonify(data=request.json, code="400", message=e.message)
         # pass contrl to business layer to make the edit
         res_data = self.service.edit(reservation)
         # if the edit was successful
