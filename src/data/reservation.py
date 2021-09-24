@@ -167,7 +167,7 @@ class ReservationDao(ReservationDaoBase):
             record.datetime = reservation.datetime
             record.size = reservation.size
             # return the updated model
-            return record
+            return reservation
         # handle database errors 
         except exc.SQLAlchemyError:
             # encapsulate the error by wrapping it with a custom exception
